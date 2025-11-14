@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数值迭代法可视化 | NumIterVis</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用 CDN 引入第三方库 -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11.8.0/lib/browser/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>数值迭代法可视化工具</h1>
+        <p>可视化求解方程 f(x) = 0 的根</p>
+    </header>
+
+    <main>
+        <section id="input-section">
+            <h2>参数设置</h2>
+            <div class="input-group">
+                <label for="equation-input">方程 f(x) = 0:</label>
+                <input type="text" id="equation-input" placeholder="例如: x^3 - x - 1" value="x^3 - x - 1">
+                <!-- 可选：预定义函数下拉菜单 -->
+            </div>
+            <div class="input-group">
+                <label for="method-select">迭代方法:</label>
+                <select id="method-select">
+                    <option value="newton">牛顿迭代法</option>
+                    <option value="newtonDownhill">牛顿下山法</option>
+                    <option value="aitken">埃特肯加速法</option>
+                    <option value="secantSingle">单点弦截法</option>
+                    <option value="secantDouble">双点弦截法</option>
+                </select>
+            </div>
+            <div class="input-group parameters">
+                <!-- 参数会根据选择的方法动态显示/隐藏 -->
+                <label for="x0-input">初始值 x₀:</label>
+                <input type="number" id="x0-input" step="any" value="1.5">
+                
+                <label for="x1-input" class="for-secant">初始值 x₁:</label>
+                <input type="number" id="x1-input" step="any" value="1.6" class="for-secant">
+
+                <label for="tolerance-input">收敛精度 ε:</label>
+                <input type="number" id="tolerance-input" step="any" value="0.000001">
+                
+                <label for="max-iter-input">最大迭代次数:</label>
+                <input type="number" id="max-iter-input" value="50">
+            </div>
+            <button id="calculate-btn">开始计算与可视化</button>
+            <button id="clear-btn">清空</button>
+        </section>
+
+        <section id="visualization-section">
+            <h2>可视化结果</h2>
+            <div class="chart-container">
+                <canvas id="function-chart"></canvas> <!-- 函数图像和迭代点 -->
+            </div>
+            <div class="chart-container">
+                <canvas id="convergence-chart"></canvas> <!-- 收敛曲线 (|x_{n+1}-x_n| 或 |f(x_n)|) -->
+            </div>
+        </section>
+
+        <section id="results-section">
+            <h2>迭代过程数据</h2>
+            <div class="table-wrapper">
+                <table id="iterations-table">
+                    <thead>
+                        <tr>
+                            <th>迭代次数</th>
+                            <th>xₙ</th>
+                            <th>f(xₙ)</th>
+                            <th>|xₙ₊₁ - xₙ|</th> <!-- 或其他误差指标 -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 迭代数据将通过 JavaScript 动态插入 -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="final-result">
+                <!-- 最终结果总结 -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 NumIterVis - 数值分析迭代法可视化工具</p>
+    </footer>
+
+    <!-- 引入自定义 JavaScript 文件 -->
+    <script src="js/equations/parser.js"></script>
+    <script src="js/algorithms/newton.js"></script>
+    <script src="js/algorithms/newtonDownhill.js"></script>
+    <script src="js/algorithms/aitken.js"></script>
+    <script src="js/algorithms/secantSingle.js"></script>
+    <script src="js/algorithms/secantDouble.js"></script>
+    <script src="js/visualization/plotter.js"></script>
+    <script src="js/visualization/table.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
